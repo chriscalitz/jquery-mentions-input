@@ -131,6 +131,7 @@
       elmInputBox.attr('data-mentions-input', 'true');
       elmInputBox.bind('keydown', onInputBoxKeyDown);
       elmInputBox.bind('keypress', onInputBoxKeyPress);
+      elmInputBox.bind('keyup', onInputBoxInput);
       elmInputBox.bind('input', onInputBoxInput);
       elmInputBox.bind('click', onInputBoxClick);
 
@@ -321,13 +322,6 @@
       if (e.keyCode == KEY.LEFT || e.keyCode == KEY.RIGHT || e.keyCode == KEY.HOME || e.keyCode == KEY.END) {
         // Defer execution to ensure carat pos has changed after HOME/END keys
         _.defer(resetBuffer);
-
-        // IE9 doesn't fire the oninput event when backspace or delete is pressed. This causes the highlighting
-        // to stay on the screen whenever backspace is pressed after a highlighed word. This is simply a hack
-        // to force updateValues() to fire when backspace/delete is pressed in IE9.
-        if (navigator.userAgent.indexOf("MSIE 9") > -1) {
-          _.defer(updateValues);
-        }
 
         return;
       }
